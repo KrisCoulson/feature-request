@@ -12,10 +12,12 @@
 		"clean": "noderize-scripts clean"
 	},
 	"devDependencies": {
-		"@noderize/scripts": "^0.4.6"
+		"@noderize/scripts": "^0.4.6",
+		"babel-plugin-transform-async-to-generator": "^6.24.1"
 	},
 	"dependencies": {
 		"@noderize/runtime": "^0.4.6",
-		"koa": "^2.5.0"
+		"koa": "^2.5.0",
+		"koa-router": "^7.4.0"
 	}
 }
