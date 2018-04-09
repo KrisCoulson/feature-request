@@ -16,8 +16,11 @@
 		"babel-plugin-transform-async-to-generator": "^6.24.1"
 	},
 	"dependencies": {
+		"@koa/cors": "2",
 		"@noderize/runtime": "^0.4.6",
 		"koa": "^2.5.0",
-		"koa-router": "^7.4.0"
+		"koa-bodyparser": "^4.2.0",
+		"koa-router": "^7.4.0",
+		"mongoose": "^5.0.13"
 	}
 }
