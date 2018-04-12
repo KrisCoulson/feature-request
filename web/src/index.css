@@ -18,9 +18,40 @@ input, textarea {
 }
 
 .container-center {
+  display: flex;
   width: 80%;
   margin: 0 auto;
   height: 500px;
   background: #fff;
   padding: 30px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 400px;
+
+}
+
+.main-content {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.post {
+  border: 2px solid #eef2f5;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.post-title {
+  margin: 0 0 5px;
+}
+
+.post-description {
+  font-size: 14px;
+}
+
+.post-created-at {
+  font-size: 10px;
 }

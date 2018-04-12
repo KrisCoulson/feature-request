@@ -7,9 +7,6 @@ const createNewPost = values => {
     description: values.description
   });
 };
-const getPosts = values => {
-  axios.get('http://localhost:3001/post').then(res => console.log(res.data))
-};
 
 class Sidebar extends React.Component {
   state = {
@@ -19,12 +16,7 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          width: '400px',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
+      <div className='sidebar'>
         <label>Title</label>
         <input
           placeholder="Title"
@@ -38,8 +30,10 @@ class Sidebar extends React.Component {
           value={this.state.description}
           onChange={e => this.setState({ description: e.target.value })}
         />
-        <button onClick={() => createNewPost(this.state)}>New Post</button>
-        <button onClick={() => getPosts()}>Get Posts</button>
+        <button onClick={() => {
+          createNewPost(this.state)
+          this.setState({ title: '', description: '' });
+        }}>New Post</button>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../layout/components/Sidebar';
+import MainContent from '../layout/components/MainContent';
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
 
         <div className="container-center">
           <Sidebar />
+          <MainContent />
         </div>
       </div>
     );

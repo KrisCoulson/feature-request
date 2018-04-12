@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const postSchema  = mongoose.Schema({
   title: String,
   description: String,
-  upvote_count: Number,
+  upvote_count: { type: Number, default: 1 }
 })
 
 
