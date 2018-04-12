@@ -4,9 +4,11 @@ import mongoose from 'mongoose';
 import cors from '@koa/cors';
 import bodyparser from 'koa-bodyparser';
 import logger from 'koa-logger';
+import passport from './auth/auth';
 
 import config from './config';
 import Post from './post/model';
+import User from './user/model';
 
 
 const app = new Koa();
@@ -26,16 +28,29 @@ app.use(bodyparser());
 app.use(cors());
 app.use(logger());
 
-// logger
-app.use(async (ctx, next) => {
-const start = new Date();
-await next();
-const ms = new Date() - start;
-console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+// authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
+router.post('/login', passport.authenticate('local'), (ctx) => {
+  console.log('successfully logged in.');
+  console.log(ctx.req.user)
+  ctx.body = { status: 'success' }
 });
 
-router.post('/post', async (ctx) => {
+router.post('/register', async (ctx) => {
+  const {email, password} = ctx.request.body;
+  const user = await User.create({
+    firstName: 'kris',
+    lastName: 'coulson',
+    email,
+    password,
+  });
+  ctx.body = { status: 'success' }
+})
 
+router.post('/post', async (ctx) => {
+  console.log(ctx.req.session)
   const {title, description} = ctx.request.body;
   const post = await Post.create({
     title,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Sidebar from '../layout/components/Sidebar';
 import MainContent from '../layout/components/MainContent';
+import LoginForm from '../auth/LoginForm';
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
       <div className="App">
 
         <div className="container-center">
+          <LoginForm />
           <Sidebar />
           <MainContent />
         </div>
