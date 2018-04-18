@@ -5,7 +5,7 @@ const createNewPost = values => {
   axios.post('http://localhost:3001/post', {
     title: values.title,
     description: values.description
-  });
+  }, { withCredentials: true });
 };
 
 class Sidebar extends React.Component {

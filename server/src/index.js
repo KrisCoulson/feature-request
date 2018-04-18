@@ -7,6 +7,7 @@ import logger from 'koa-logger';
 import passport from './auth/auth';
 
 import config from './config';
+import session from 'koa-session';
 import Post from './post/model';
 import User from './user/model';
 
@@ -23,9 +24,25 @@ mongoose.connect(config.db.uri).then(
   }
 );
 
+const authenticated = function(ctx, next) {
+  console.log('ctx is : ', ctx.isAuthenticated())
+  if (ctx.isAuthenticated()) {
+    return next()
+  }
+  console.log('hugeeeee error not authed')
+};
 
+
+app.keys = ['secret'];
+app.use(session({ key: 'f_r_login' }, app))
 app.use(bodyparser());
-app.use(cors());
+
+// To make set-cookie headers store the cookies you must send in credentials
+// and have cors return credentials so preflight options request passes
+app.use(cors({
+  credentials: true,
+}));
+
 app.use(logger());
 
 // authentication
@@ -33,9 +50,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 router.post('/login', passport.authenticate('local'), (ctx) => {
+  console.log('session', ctx.session)
   console.log('successfully logged in.');
+  ctx.cookies.set('loggedIn', true, {httpOnly: false});
+
   console.log(ctx.req.user)
-  ctx.body = { status: 'success' }
+  const { password, ...rest } = ctx.req.user
+  ctx.body = { loggedIn: true , user: ctx.req.user }
+});
+
+router.delete('/logout', authenticated, (ctx) => {
+  ctx.logout()
+  ctx.body = { loggedIn: false , user: ctx.req.user }
 });
 
 router.post('/register', async (ctx) => {
@@ -49,8 +75,9 @@ router.post('/register', async (ctx) => {
   ctx.body = { status: 'success' }
 })
 
+router.use(['/post'], authenticated);
+
 router.post('/post', async (ctx) => {
-  console.log(ctx.req.session)
   const {title, description} = ctx.request.body;
   const post = await Post.create({
     title,
